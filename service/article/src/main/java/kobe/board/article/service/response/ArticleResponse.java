@@ -1,6 +1,5 @@
 package kobe.board.article.service.response;
 
-import jakarta.persistence.Id;
 import kobe.board.article.entity.Article;
 import lombok.Getter;
 import lombok.ToString;
