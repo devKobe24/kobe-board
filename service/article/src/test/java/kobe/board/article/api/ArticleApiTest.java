@@ -1,5 +1,11 @@
 package kobe.board.article.api;
 
+import kobe.board.article.service.response.ArticleResponse;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClient;
+
 public class ArticleApiTest {
 	RestClient restClient = RestClient.create("http://localhost:9000");
 
