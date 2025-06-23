@@ -14,7 +14,7 @@ public class ArticleResponse {
 	private String content;
 	private Long boardId;
 	private Long writerId;
-	private LocalDateTime createTime;
+	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
 
 	public static ArticleResponse from(Article article) {
@@ -24,7 +24,7 @@ public class ArticleResponse {
 		response.content = article.getContent();
 		response.boardId = article.getBoardId();
 		response.writerId = article.getWriterId();
-		response.createTime = article.getCreateTime();
+		response.createdAt = article.getCreatedAt();
 		response.modifiedAt = article.getModifiedAt();
 		return response;
 	}
