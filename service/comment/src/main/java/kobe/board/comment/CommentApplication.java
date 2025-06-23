@@ -1,4 +1,4 @@
-package kobe.board.article;
+package kobe.board.comment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package kobe.board.article;
+package kobe.board.like;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
