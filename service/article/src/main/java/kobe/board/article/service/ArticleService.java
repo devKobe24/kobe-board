@@ -3,6 +3,7 @@ package kobe.board.article.service;
 import kobe.board.article.entity.Article;
 import kobe.board.article.repository.ArticleRepository;
 import kobe.board.article.service.request.ArticleCreateRequest;
+import kobe.board.article.service.request.ArticleUpdateRequest;
 import kobe.board.article.service.response.ArticleResponse;
 import kobe.board.common.snowflake.Snowflake;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,21 @@ public class ArticleService {
 			Article.create(snowflake.nextId(), request.getTitle(), request.getContent(), request.getBoardId(), request.getWriteId())
 		);
 		return ArticleResponse.from(article);
+	}
+
+	@Transactional
+	public ArticleResponse update(Long articleId, ArticleUpdateRequest request) {
+		Article article = articleRepository.findById(articleId).orElseThrow();
+		article.update(request.getTitle(), request.getContent());
+		return ArticleResponse.from(article);
+	}
+
+	public ArticleResponse read(Long articleId) {
+		return ArticleResponse.from(articleRepository.findById(articleId).orElseThrow());
+	}
+
+	@Transactional
+	public void delete(Long articleId) {
+		articleRepository.deleteById(articleId);
 	}
 }
