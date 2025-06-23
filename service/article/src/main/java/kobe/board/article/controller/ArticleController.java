@@ -1,9 +1,11 @@
 package kobe.board.article.controller;
 
 import kobe.board.article.service.ArticleService;
+import kobe.board.article.service.request.ArticleCreateRequest;
+import kobe.board.article.service.request.ArticleUpdateRequest;
+import kobe.board.article.service.response.ArticleResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/articles")
