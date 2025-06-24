@@ -1,5 +1,6 @@
 package kobe.board.article.api;
 
+import kobe.board.article.service.response.ArticlePageResponse;
 import kobe.board.article.service.response.ArticleResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,6 +55,19 @@ public class ArticleApiTest {
 		restClient.delete()
 			.uri("/v1/articles/{articleId}", 195672956478894080L)
 			.retrieve();
+	}
+
+	@Test
+	void readAllTest() {
+		ArticlePageResponse response = restClient.get()
+			.uri("/v1/articles?boardId=1&pageSize=30&page=50000")
+			.retrieve()
+			.body(ArticlePageResponse.class);
+
+		System.out.println("[READ ALL] response getArticleCount() = " + response.getArticleCount());
+		for (ArticleResponse article: response.getArticles()) {
+			System.out.println("[READ ALL] articleId = " + article.getArticleId());
+		}
 	}
 
 	ArticleResponse create(ArticleCreateRequest request) {
