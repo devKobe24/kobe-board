@@ -1,10 +1,14 @@
 package kobe.board.comment.api;
 
+import kobe.board.comment.service.response.CommentPageResponse;
 import kobe.board.comment.service.response.CommentResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClient;
+
+import java.util.List;
 
 public class CommentApiTest {
 	RestClient restClient = RestClient.create("http://127.0.0.1:9001");
