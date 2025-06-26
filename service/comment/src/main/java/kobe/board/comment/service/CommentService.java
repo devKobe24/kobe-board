@@ -3,14 +3,19 @@ package kobe.board.comment.service;
 import kobe.board.comment.entity.Comment;
 import kobe.board.comment.repository.CommentRepository;
 import kobe.board.comment.service.request.CommentCreateRequest;
+import kobe.board.comment.service.response.CommentPageResponse;
 import kobe.board.comment.service.response.CommentResponse;
 import kobe.board.common.snowflake.Snowflake;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static java.util.function.Predicate.not;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -73,6 +78,28 @@ public class CommentService {
 				.filter(Comment::getDeleted)
 				.filter(not(this::hasChildren))
 				.ifPresent(this::delete);
+		}
+	}
+
+	public CommentPageResponse readAll(Long articleId, Long page, Long pageSize) {
+		return CommentPageResponse.of(
+			commentRepository.findAll(articleId, (page - 1) * pageSize, pageSize).stream()
+				.map(CommentResponse::from)
+				.toList(),
+			commentRepository.count(articleId, PageLimitCalculator.calculatePageLimit(page, pageSize, 10L))
+		);
+	}
+
+	public List<CommentResponse> readAll(Long articleId, Long lastParentCommentId, Long lastCommentId, Long limit) {
+		try {
+			List<Comment> comments = (lastParentCommentId == null || lastCommentId == null)
+				? commentRepository.findAllInfiniteScroll(articleId, limit)
+				: commentRepository.findAllInfiniteScroll(articleId, lastParentCommentId, lastCommentId, limit);
+
+			return comments.stream().map(CommentResponse::from).toList();
+		} catch (Exception e) {
+			log.error("❗️ InfiniteScroll read failed", e);
+			throw e;
 		}
 	}
 }
