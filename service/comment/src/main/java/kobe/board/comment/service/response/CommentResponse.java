@@ -15,6 +15,7 @@ public class CommentResponse {
 	private Long articleId;
 	private Long writerId;
 	private Boolean deleted;
+	private String path;
 	private LocalDateTime createdAt;
 
 	public static CommentResponse from(Comment comment) {
