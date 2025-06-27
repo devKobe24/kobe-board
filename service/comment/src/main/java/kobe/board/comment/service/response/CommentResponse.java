@@ -1,6 +1,7 @@
 package kobe.board.comment.service.response;
 
 import kobe.board.comment.entity.Comment;
+import kobe.board.comment.entity.CommentV2;
 import lombok.Getter;
 import lombok.ToString;
 
