@@ -1,7 +1,9 @@
 package kobe.board.article.service;
 
 import kobe.board.article.entity.Article;
+import kobe.board.article.entity.BoardArticleCount;
 import kobe.board.article.repository.ArticleRepository;
+import kobe.board.article.repository.BoardArticleCountRepository;
 import kobe.board.article.service.request.ArticleCreateRequest;
 import kobe.board.article.service.request.ArticleUpdateRequest;
 import kobe.board.article.service.response.ArticlePageResponse;
@@ -18,6 +20,7 @@ import java.util.List;
 public class ArticleService {
 	private final Snowflake snowflake = new Snowflake();
 	private final ArticleRepository articleRepository;
+	private final BoardArticleCountRepository boardArticleCountRepository;
 
 	@Transactional
 	public ArticleResponse create(ArticleCreateRequest request) {
@@ -30,6 +33,12 @@ public class ArticleService {
 				request.getWriterId()
 			)
 		);
+		int result = boardArticleCountRepository.increase(request.getBoardId());
+		if (result == 0) {
+			boardArticleCountRepository.save(
+				BoardArticleCount.init(request.getBoardId(), 1L)
+			);
+		}
 		return ArticleResponse.from(article);
 	}
 
@@ -46,7 +55,9 @@ public class ArticleService {
 
 	@Transactional
 	public void delete(Long articleId) {
-		articleRepository.deleteById(articleId);
+		Article article = articleRepository.findById(articleId).orElseThrow();
+		articleRepository.delete(article);
+		boardArticleCountRepository.decrease(article.getBoardId());
 	}
 
 	public ArticlePageResponse readAll(Long boardId, Long page, Long pageSize) {
