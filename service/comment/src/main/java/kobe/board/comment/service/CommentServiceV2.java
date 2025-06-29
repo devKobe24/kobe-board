@@ -116,4 +116,10 @@ public class CommentServiceV2 {
 			.map(CommentResponse::from)
 			.toList();
 	}
+
+	public Long count(Long articleId) {
+		return articleCommentCountRepository.findById(articleId)
+			.map(ArticleCommentCount::getCommentCount)
+			.orElse(0L);
+	}
 }
