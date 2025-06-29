@@ -63,14 +63,14 @@ public class ArticleLikeController {
 		@PathVariable("articleId") Long articleId,
 		@PathVariable("userId") Long userId
 	) {
-		articleLikeService.like(articleId, userId);
+		articleLikeService.likeOptimisticLock(articleId, userId);
 	}
 
-	@DeleteMapping("/{articleId}/users/{userId}")
-	public void unlike(
+	@DeleteMapping("/{articleId}/users/{userId}/optimistic-lock")
+	public void unlikeOptimisticLock(
 		@PathVariable("articleId") Long articleId,
 		@PathVariable("userId") Long userId
 	) {
-		articleLikeService.unlike(articleId, userId);
+		articleLikeService.unlikeOptimisticLock(articleId, userId);
 	}
 }
