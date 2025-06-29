@@ -1,7 +1,9 @@
 package kobe.board.comment.service;
 
+import kobe.board.comment.entity.ArticleCommentCount;
 import kobe.board.comment.entity.CommentPath;
 import kobe.board.comment.entity.CommentV2;
+import kobe.board.comment.repository.ArticleCommentCountRepository;
 import kobe.board.comment.repository.CommentRepositoryV2;
 import kobe.board.comment.service.request.CommentCreateRequestV2;
 import kobe.board.comment.service.response.CommentPageResponse;
@@ -37,6 +39,13 @@ public class CommentServiceV2 {
 				)
 			)
 		);
+
+		int result = articleCommentCountRepository.increase(request.getArticleId());
+		if (result == 0) {
+			articleCommentCountRepository.save(
+				ArticleCommentCount.init(request.getArticleId(), 1L)
+			);
+		}
 
 		return CommentResponse.from(comment);
 	}
