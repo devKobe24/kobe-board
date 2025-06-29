@@ -78,4 +78,10 @@ public class ArticleService {
 			articleRepository.findAllInfiniteScroll(boardId, pageSize, lastArticleId);
 		return articles.stream().map(ArticleResponse::from).toList();
 	}
+
+	public Long count(Long boardId) {
+		return boardArticleCountRepository.findById(boardId)
+			.map(BoardArticleCount::getArticleCount)
+			.orElse(0L);
+	}
 }
