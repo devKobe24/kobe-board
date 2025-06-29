@@ -89,6 +89,7 @@ public class CommentServiceV2 {
 
 	private void delete(CommentV2 comment) {
 		commentRepository.delete(comment);
+		articleCommentCountRepository.decrease(comment.getArticleId());
 		if (!comment.isRoot()) {
 			commentRepository.findByPath(comment.getCommentPath().getParentPath())
 				.filter(CommentV2::getDeleted)
