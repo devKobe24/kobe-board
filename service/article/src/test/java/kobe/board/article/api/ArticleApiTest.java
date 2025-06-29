@@ -107,6 +107,27 @@ public class ArticleApiTest {
 		}
 	}
 
+	@Test
+	void countTest() {
+		ArticleResponse response = create(new ArticleCreateRequest("TITLE", "CONTENT", 1L, 2L));
+
+		Long count1 = restClient.get()
+			.uri("/v1/articles/boards/{boardId}/count", 2L)
+			.retrieve()
+			.body(Long.class);
+		System.out.println("[COUNT 1] = " + count1);
+
+		restClient.delete()
+			.uri("/v1/articles/{articleId}", response.getArticleId())
+			.retrieve();
+
+		Long count2 = restClient.get()
+			.uri("/v1/articles/boards/{boardId}/count", 2L)
+			.retrieve()
+			.body(Long.class);
+		System.out.println("[COUNT 2] = " + count2);
+	}
+
 	@Getter
 	@AllArgsConstructor
 	static class ArticleCreateRequest {
