@@ -22,6 +22,7 @@ import static java.util.function.Predicate.not;
 public class CommentServiceV2 {
 	private final Snowflake snowflake = new Snowflake();
 	private final CommentRepositoryV2 commentRepository;
+	private final ArticleCommentCountRepository articleCommentCountRepository;
 
 	@Transactional
 	public CommentResponse create(CommentCreateRequestV2 request) {
