@@ -16,7 +16,6 @@ import java.util.List;
 public class ArticleController {
 	private final ArticleService articleService;
 
-
 	@GetMapping("/{articleId}")
 	public ArticleResponse read(@PathVariable Long articleId) {
 		return articleService.read(articleId);
@@ -53,5 +52,10 @@ public class ArticleController {
 	@DeleteMapping("/{articleId}")
 	public void delete(@PathVariable Long articleId) {
 		articleService.delete(articleId);
+	}
+
+	@GetMapping("/boards/{boardId}/count")
+	public Long count(@PathVariable Long boardId) {
+		return articleService.count(boardId);
 	}
 }
